@@ -11,20 +11,22 @@ from dialog import Dialog
 locale.setlocale(locale.LC_ALL, '')
 
 def shell(cmd):
+    """runs a shell command and returns the exit code"""
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
     for line in proc.stdout:
         print(line.decode())
     proc.communicate()
     return proc.returncode
 
+def shell_get_output(cmd):
+    """runs a shell command and returns the stdout of the command"""
+    return subproccess.check_output(cmd).decode()
 
 def set_hostname(hostname):
-    with open('/etc/hostname', 'w+') as f:
-        f.write(hostname)
+    shell('hostnamectl set-hostname', hostname)
 
 def get_hostname():
-    with open('/etc/hostname', 'r') as f:
-        return f.readline().strip()
+    return shell_get_output('hostname').strip()
 
 def ssh_reset():
     cmd = '/bin/rm -v /etc/ssh/ssh_host_*'
