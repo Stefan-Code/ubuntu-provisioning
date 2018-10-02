@@ -42,10 +42,13 @@ def ssh_reset():
         error('Error resetting SSH keys! (generating new keys)')
 
 def patch_sudors():
-    with open('/etc/sudoers', 'a') as f:
-        f.write('\n#Allow members of the admin group\
-                to execute commands WITHOUT A PASSWORD!\n\
-                %admin ALL=(ALL) NOPASSWD: ALL\n')
+    with open('/etc/sudoers', 'r') as f:
+        contents = f.read()
+    if not '%admin ALL=(ALL) NOPASSWD: ALL' in contents:
+        with open('/etc/sudoers', 'a') as f:
+            f.write('\n#Allow members of the admin group\
+                    to execute commands WITHOUT A PASSWORD!\n\
+                    %admin ALL=(ALL) NOPASSWD: ALL\n')
 
 def add_user_to_group(user, group):
     shell(['usermod -a -G', group, user])
