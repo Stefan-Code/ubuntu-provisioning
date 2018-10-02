@@ -41,7 +41,7 @@ def ssh_reset():
     if shell(cmd) != 0:
         error('Error resetting SSH keys! (generating new keys)')
 
-def patch_sudors():
+def patch_sudoers():
     with open('/etc/sudoers', 'r') as f:
         contents = f.read()
     if not '%admin ALL=(ALL) NOPASSWD: ALL' in contents:
@@ -101,6 +101,7 @@ if __name__ == '__main__':
         update()
     else:
         print('NOT performing update')
+
 
     code, hostname = d.inputbox('Set Hostname', init=get_hostname())
 
