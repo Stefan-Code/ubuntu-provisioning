@@ -64,6 +64,12 @@ def add_user_to_group(user, group):
 def groupadd(group):
     shell('groupadd {}'.format(group))
 
+def fix_sshd_config():
+    commands = ['sed -i "s/.*PubkeyAuthentication.*/PubkeyAuthentication yes/g" /etc/ssh/sshd_config',
+                'sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication no/g" /etc/ssh/sshd_config',
+                'sed -i "s/.*PermitRootLogin.*/PermitRootLogin no/g" /etc/ssh/sshd_config']
+    exit_codes = [shell(command) for command in commands]
+
 def update():
     cmd = 'apt-get update --yes && apt-get upgrade --yes'
     if shell(cmd) != 0:
@@ -134,8 +140,13 @@ if __name__ == '__main__':
         if d.yesno("Are you sure to add these keys to user {}?".format(logname())) == d.OK:
             ssh_dir = os.path.join(home_dir(logname()), '.ssh')
             shell('mkdir -p {}'.format(ssh_dir))
-            with open(os.path.join(ssh_dir, 'authorized_keys'), 'a+') as f:
+            authorized_keys = os.path.join(ssh_dir, 'authorized_keys')
+            with open(authorized_keys), 'a+') as f:
                 f.write(keys)
+            shell('chmod 600 {}'.format(authorized_keys)) 
+
+    if d.yesno('Fix SSHD config to NOT permit password logins (public keys only)?') == d.OK:
+        fix_sshd_config()
 
     if d.yesno("Enable tty autologin for user '{}'? This will reset existing tty1 configuration.".format(logname())) == d.OK:
         enable_autologin()
