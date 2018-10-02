@@ -128,9 +128,9 @@ if __name__ == '__main__':
     if d.yesno("Allow passwordless sudo for admin group?") == d.OK:
         patch_sudoers()
 
-    if d.yesno("Add user '{}' to admin group now?".format(logname())) == d.OK:
-        groupadd('admin')
-        add_user_to_group(logname(), 'admin')
+        if d.yesno("Add user '{}' to admin group now?".format(logname())) == d.OK:
+            groupadd('admin')
+            add_user_to_group(logname(), 'admin')
 
     if d.yesno("Add Github keys to authorized_hosts?") == d.OK:
         code, user = d.inputbox('Github Username')
