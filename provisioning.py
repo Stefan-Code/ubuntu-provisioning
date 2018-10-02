@@ -127,7 +127,9 @@ if __name__ == '__main__':
             keys = urllib.request.urlopen('https://github.com/{}.keys'.format(user)).read().decode()
         print(keys)
         if d.yesno("Are you sure to add these keys to user {}?".format(logname())) == d.OK:
-            with open(os.path.join(home_dir(logname()), '.ssh/authorized_keys'), 'a+') as f:
+            ssh_dir = os.path.join(home_dir(logname()), '.ssh')
+            shell('mkdir -p {}'.format(ssh_dir))
+            with open(os.path.join(ssh_dir, 'authorized_keys'), 'a+') as f:
                 f.write(keys)
 
     if d.yesno("Reset SSH keys?") == d.OK:
