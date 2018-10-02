@@ -23,7 +23,7 @@ def shell_get_output(cmd):
     return subprocess.check_output(cmd).decode()
 
 def set_hostname(hostname):
-    shell('hostnamectl set-hostname {}'.format(hostname]))
+    shell('hostnamectl set-hostname {}'.format(hostname))
 
 def get_hostname():
     return shell_get_output('hostname').strip()
