@@ -5,6 +5,7 @@ import locale
 import subprocess
 import sys
 import shutil
+import urllib
 
 from dialog import Dialog
 
