@@ -21,7 +21,7 @@ def shell(cmd):
 
 def shell_get_output(cmd):
     """runs a shell command and returns the stdout of the command"""
-    return subprocess.check_output(cmd).decode()
+    return subprocess.check_output(cmd, shell=True).decode()
 
 def set_hostname(hostname):
     shell('hostnamectl set-hostname {}'.format(hostname))
