@@ -49,9 +49,7 @@ def patch_sudoers():
         contents = f.read()
     if not '%admin ALL=(ALL) NOPASSWD: ALL' in contents:
         with open('/etc/sudoers', 'a') as f:
-            f.write('\n#Allow members of the admin group\
-                    to execute commands WITHOUT A PASSWORD!\n\
-                    %admin ALL=(ALL) NOPASSWD: ALL\n')
+            f.write('\n#Allow members of the admin group to execute commands WITHOUT A PASSWORD!\n%admin ALL=(ALL) NOPASSWD: ALL\n')
 
 def add_user_to_group(user, group):
     shell('usermod -a -G {} {}'.format(group, user))
