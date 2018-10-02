@@ -113,7 +113,7 @@ if __name__ == '__main__':
     if d.yesno("Allow passwordless sudo for admin group?") == d.OK:
         patch_sudoers()
 
-    if d.yesno("Add user '{}' to admin group now?".format(logname())) == d.OK:
+    if d.yesno("Add user '{}' to admin group now?".format(logname().strip())) == d.OK:
         groupadd('admin')
         add_user_to_group(logname(), 'admin')
 
