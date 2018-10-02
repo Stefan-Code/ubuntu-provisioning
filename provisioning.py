@@ -141,7 +141,7 @@ if __name__ == '__main__':
             ssh_dir = os.path.join(home_dir(logname()), '.ssh')
             shell('mkdir -p {}'.format(ssh_dir))
             authorized_keys = os.path.join(ssh_dir, 'authorized_keys')
-            with open(authorized_keys), 'a+') as f:
+            with open(authorized_keys, 'a+') as f:
                 f.write(keys)
             shell('chmod 600 {}'.format(authorized_keys)) 
 
