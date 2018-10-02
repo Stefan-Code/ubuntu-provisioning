@@ -143,7 +143,8 @@ if __name__ == '__main__':
             authorized_keys = os.path.join(ssh_dir, 'authorized_keys')
             with open(authorized_keys, 'a+') as f:
                 f.write(keys)
-            shell('chmod 600 {}'.format(authorized_keys)) 
+            shell('chmod 644 {}'.format(authorized_keys))
+            shell('chown {} {}'.format(logname(), authorized_keys))
 
     if d.yesno('Fix SSHD config to NOT permit password logins (public keys only)?') == d.OK:
         fix_sshd_config()
