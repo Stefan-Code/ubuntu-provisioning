@@ -51,6 +51,11 @@ def patch_sudoers():
         with open('/etc/sudoers', 'a') as f:
             f.write('\n#Allow members of the admin group to execute commands WITHOUT A PASSWORD!\n%admin ALL=(ALL) NOPASSWD: ALL\n')
 
+def enable_autologin():
+    config = ['[Service]', 'ExecStart=', 'ExecStart=-/sbin/agetty --autologin $USER --noclear %I $TERM']
+    with open('/etc/systemd/system/getty1@tty1.service.d/override.conf', 'w') as f:
+        f.write('\n'.join([line.replace('$USER', logname()) for line in config))
+
 def add_user_to_group(user, group):
     shell('usermod -a -G {} {}'.format(group, user))
 
@@ -129,6 +134,9 @@ if __name__ == '__main__':
             shell('mkdir -p {}'.format(ssh_dir))
             with open(os.path.join(ssh_dir, 'authorized_keys'), 'a+') as f:
                 f.write(keys)
+
+    if d.yesno("Enable tty autologin for user '{}'? This will reset existing tty1 configuration.".format(logname())) == d.OK:
+        enable_autologin()
 
     if d.yesno("Reset SSH keys?") == d.OK:
         print("Resetting SSH keys")
