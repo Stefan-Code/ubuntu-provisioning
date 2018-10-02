@@ -31,6 +31,9 @@ def get_hostname():
 def logname():
     return shell_get_output('logname').strip()
 
+def home_dir(user):
+    return shell_get_output('eval echo ~{}'.format(user)).strip('\n')
+
 def ssh_reset():
     cmd = '/bin/rm -v /etc/ssh/ssh_host_*'
     if shell(cmd) != 0:
@@ -116,6 +119,15 @@ if __name__ == '__main__':
     if d.yesno("Add user '{}' to admin group now?".format(logname())) == d.OK:
         groupadd('admin')
         add_user_to_group(logname(), 'admin')
+
+    if d.yesno("Add Github keys to authorized_hosts?") == d.OK:
+        code, user = d.inputbox('Github Username')
+        if code == Dialog.OK:
+            keys = urllib.requests.urlopen('https://github.com/{}.keys'.format(user)).read().decode()
+        print(keys)
+        if d.yesno("Are you sure to add these keys to user {}?".format(logname())) == d.OK:
+            with open(os.path.join(home_dir(logname), '.ssh/authorized_keys'), 'a+') as f:
+                f.write(keys)
 
     if d.yesno("Reset SSH keys?") == d.OK:
         print("Resetting SSH keys")
