@@ -136,8 +136,7 @@ if __name__ == '__main__':
         code, user = d.inputbox('Github Username')
         if code == Dialog.OK:
             keys = urllib.request.urlopen('https://github.com/{}.keys'.format(user)).read().decode()
-        print(keys)
-        if d.yesno("Are you sure to add these keys to user {}?".format(logname())) == d.OK:
+        if d.yesno("Are you sure to add these keys to user {}?\n\n{}".format(logname(), keys)) == d.OK:
             ssh_dir = os.path.join(home_dir(logname()), '.ssh')
             shell('mkdir -p {}'.format(ssh_dir))
             authorized_keys = os.path.join(ssh_dir, 'authorized_keys')
