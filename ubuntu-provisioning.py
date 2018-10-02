@@ -34,7 +34,7 @@ def ssh_reset():
     cmd = '/usr/sbin/dpkg-reconfigure openssh-server'
     if shell(cmd) != 0:
         error('Error resetting SSH keys! (generating new keys)')
-    
+
 def update():
     cmd = 'apt-get update --yes && apt-get upgrade --yes'
     if shell(cmd) != 0:
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     if os.geteuid() != 0:
         abort('You are not root!', clear=False)
-    
+
     if d.yesno('Do you want to update the system?') == d.OK:
         print('Performing update')
         update()
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         destroy_self()
     else:
         print('leaving provisioning script in place')
-    
+
     if d.yesno('Reboot?') == d.OK:
         print('Rebooting!')
         reboot()
