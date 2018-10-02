@@ -7,7 +7,6 @@ import sys
 import shutil
 
 from dialog import Dialog
-from colorama import Fore, Back, Style
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -114,7 +113,7 @@ if __name__ == '__main__':
     if d.yesno("Allow passwordless sudo for admin group?") == d.OK:
         patch_sudoers()
 
-    if d.yesno("Add user '{}' to admin group now?".format(Back.RED+logname()+Style.RESET_ALL)) == d.OK:
+    if d.yesno("Add user '{}' to admin group now?".format(logname())) == d.OK:
         groupadd('admin')
         add_user_to_group(logname(), 'admin')
 
