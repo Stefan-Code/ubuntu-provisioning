@@ -5,7 +5,7 @@ import locale
 import subprocess
 import sys
 import shutil
-import urllib
+import urllib.request
 
 from dialog import Dialog
 
