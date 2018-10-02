@@ -55,7 +55,7 @@ def enable_autologin():
     config = ['[Service]', 'ExecStart=', 'ExecStart=-/sbin/agetty --autologin $USER --noclear %I $TERM']
     # ensure config directory exists
     shell('mkdir -p /etc/systemd/system/getty1@tty1.service.d/')
-    with open('/etc/systemd/system/getty1@tty1.service.d/override.conf', 'w') as f:
+    with open('/etc/systemd/system/getty@tty1.service.d/override.conf', 'w') as f:
         f.write('\n'.join([line.replace('$USER', logname()) for line in config]))
 
 def add_user_to_group(user, group):
