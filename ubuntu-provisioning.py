@@ -24,7 +24,7 @@ def shell_get_output(cmd):
     return subprocess.check_output(cmd).decode()
 
 def set_hostname(hostname):
-    shell('hostnamectl set-hostname', hostname)
+    shell(['hostnamectl set-hostname', hostname])
 
 def get_hostname():
     return shell_get_output('hostname').strip()
@@ -48,10 +48,10 @@ def patch_sudors():
                 %admin ALL=(ALL) NOPASSWD: ALL\n')
 
 def add_user_to_group(user, group):
-    shell('usermod -a -G', group, user)
+    shell(['usermod -a -G', group, user])
 
 def groupadd(group):
-    shell('groupadd', group)
+    shell(['groupadd', group])
 
 def update():
     cmd = 'apt-get update --yes && apt-get upgrade --yes'
