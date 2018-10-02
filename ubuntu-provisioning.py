@@ -7,6 +7,7 @@ import sys
 import shutil
 
 from dialog import Dialog
+from colorama import Fore, Back, Style
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -28,6 +29,9 @@ def set_hostname(hostname):
 def get_hostname():
     return shell_get_output('hostname').strip()
 
+def logname():
+    return shell_get_output('logname')
+
 def ssh_reset():
     cmd = '/bin/rm -v /etc/ssh/ssh_host_*'
     if shell(cmd) != 0:
@@ -36,6 +40,18 @@ def ssh_reset():
     cmd = '/usr/sbin/dpkg-reconfigure openssh-server'
     if shell(cmd) != 0:
         error('Error resetting SSH keys! (generating new keys)')
+
+def patch_sudors():
+    with open('/etc/sudoers', 'a') as f:
+        f.write('\n#Allow members of the admin group\
+                to execute commands WITHOUT A PASSWORD!\n\
+                %admin ALL=(ALL) NOPASSWD: ALL\n')
+
+def add_user_to_group(user, group):
+    shell('usermod -a -G', group, user)
+
+def groupadd(group):
+    shell('groupadd', group)
 
 def update():
     cmd = 'apt-get update --yes && apt-get upgrade --yes'
@@ -90,6 +106,13 @@ if __name__ == '__main__':
         set_hostname(hostname)
     else:
         print('NOT setting hostname')
+
+    if d.yesno("Allow passwordless sudo for admin group?") == d.OK:
+        patch_sudoers()
+
+    if d.yesno("Add user '{}' to admin group now?".format(Back.RED+logname()+Style.RESET_ALL)) == d.OK:
+        groupadd('admin')
+        add_user_to_group(logname(), 'admin')
 
     if d.yesno("Reset SSH keys?") == d.OK:
         print("Resetting SSH keys")
