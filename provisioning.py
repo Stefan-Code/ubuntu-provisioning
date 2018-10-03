@@ -131,14 +131,14 @@ if __name__ == '__main__':
         code, user = d.inputbox('Github Username')
         if code == Dialog.OK:
             keys = urllib.request.urlopen('https://github.com/{}.keys'.format(user)).read().decode()
-        if d.yesno("Are you sure to add these keys to user {}?\n\n{}".format(logname(), keys)) == d.OK:
-            ssh_dir = os.path.join(home_dir(logname()), '.ssh')
-            shell('mkdir -p {}'.format(ssh_dir))
-            authorized_keys = os.path.join(ssh_dir, 'authorized_keys')
-            with open(authorized_keys, 'a+') as f:
-                f.write(keys)
-            shell('chmod 644 {}'.format(authorized_keys))
-            shell('chown {} {}'.format(logname(), authorized_keys))
+            if d.yesno("Are you sure to add these keys to user {}?\n\n{}".format(logname(), keys)) == d.OK:
+                ssh_dir = os.path.join(home_dir(logname()), '.ssh')
+                shell('mkdir -p {}'.format(ssh_dir))
+                authorized_keys = os.path.join(ssh_dir, 'authorized_keys')
+                with open(authorized_keys, 'a+') as f:
+                    f.write(keys)
+                shell('chmod 644 {}'.format(authorized_keys))
+                shell('chown {} {}'.format(logname(), authorized_keys))
 
     if d.yesno('Fix SSHD config to NOT permit password logins (public keys only)?') == d.OK:
         fix_sshd_config()
