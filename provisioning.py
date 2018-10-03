@@ -146,6 +146,8 @@ if __name__ == '__main__':
     if d.yesno("Enable tty autologin for user '{}'? This will reset existing tty1 configuration.".format(logname())) == d.OK:
         enable_autologin()
 
+    if d.yesno("Lock the account '{}'? (Disables login with a password)".format(logname())) == d.OK:
+        shell('passwd -l {}'.format(logname()))
     if d.yesno("Reset SSH keys?") == d.OK:
         print("Resetting SSH keys")
         ssh_reset()
