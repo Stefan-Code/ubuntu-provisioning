@@ -150,7 +150,7 @@ if __name__ == '__main__':
         shell('passwd -l {}'.format(logname()))
 
     if d.yesno("select system editor alternative?") == d.OK:
-        shell('update-alternatives --config editor')
+        subprocess.run('update-alternatives --config editor', shell=True)
 
     if d.yesno("Reset SSH keys?") == d.OK:
         print("Resetting SSH keys")
