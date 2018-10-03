@@ -152,6 +152,11 @@ if __name__ == '__main__':
     if d.yesno("select system editor alternative?") == d.OK:
         subprocess.run('update-alternatives --config editor', shell=True)
 
+    bashrc_path = os.path.join(home_dir(logname()), '.bashrc')
+    if d.yesno("Replace {} with custom version?".format(bashrc_path)) == d.OK:
+        shutil.move(bashrc_path, bashrc_path + '.backup')
+        shutil.copy(os.path.join(os.path.dirname(__file__), '.bashrc'), bashrc_path)
+
     if d.yesno("Reset SSH keys?") == d.OK:
         print("Resetting SSH keys")
         ssh_reset()
