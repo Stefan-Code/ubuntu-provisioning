@@ -148,6 +148,10 @@ if __name__ == '__main__':
 
     if d.yesno("Lock the account '{}'? (Disables login with a password)".format(logname())) == d.OK:
         shell('passwd -l {}'.format(logname()))
+
+    if d.yesno("select system editor alternative?") == d.OK:
+        shell('update-alternatives --config editor')
+
     if d.yesno("Reset SSH keys?") == d.OK:
         print("Resetting SSH keys")
         ssh_reset()
