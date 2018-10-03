@@ -90,11 +90,6 @@ def abort(message='Abort!', code=1, clear=True):
     print(message)
     sys.exit(code)
 
-def destroy_self():
-    shutil.copy('.profile.original', '.profile')
-    os.remove('.profile.original')
-    os.remove(sys.argv[0])
-
 def reboot():
     cmd = 'shutdown -r now'
     shell(cmd)
@@ -158,7 +153,11 @@ if __name__ == '__main__':
         print("NOT resetting SSH keys")
     if d.yesno('Remove this script?') == d.OK:
         print('destroying script', sys.argv[0])
-        destroy_self()
+        current_file = os.path.realpath(__file__)
+        dirname = os.path.dirname(current_file)
+        if d.yesno("This will delete the directory {} irrevocably!").format(dirname) == d.OK:
+            print('deleting', dirname)
+            shutil.rmtree(dirname)
     else:
         print('leaving provisioning script in place')
 
