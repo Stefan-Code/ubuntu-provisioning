@@ -13,7 +13,7 @@ apt-get update
 apt-get install --yes python3-dialog git
 sed -i '/preserve_hostname: false/c\preserve_hostname: true' /etc/cloud/cloud.cfg
 git clone https://github.com/Stefan-Code/ubuntu-provisioning.git && chown -R `logname`:$(id -gn $(logname)) ubuntu-provisioning/
-provisioning_autorun="[ -f ~/ubuntu-provisioning/provisioning.py ] && ~/ubuntu-provisioning/provisioning.py"
+provisioning_autorun="[ -f ~/ubuntu-provisioning/provisioning.py ] && sudo ~/ubuntu-provisioning/provisioning.py"
 if grep -qx "$provisioning_autorun" ~/.profile
 then
     echo ".profile already patched"
