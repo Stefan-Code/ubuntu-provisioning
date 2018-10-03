@@ -12,6 +12,6 @@ add-apt-repository universe
 apt-get update
 apt-get install --yes python3-dialog git
 sed -i '/preserve_hostname: false/c\preserve_hostname: true' /etc/cloud/cloud.cfg
-git clone https://github.com/Stefan-Code/ubuntu-provisioning.git && chown `logname`:$(id -gn $(logname))
+git clone https://github.com/Stefan-Code/ubuntu-provisioning.git && chown `logname`:$(id -gn $(logname)) ubuntu-provisioning/
 echo "[ -f ~/ubuntu-provisioning/provisioning.py ] && ~/ubuntu-provisioning/provisioning.py" >> ~/.profile
 ./ubuntu-provisioning/provisioning.py
