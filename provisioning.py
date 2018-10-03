@@ -161,7 +161,7 @@ if __name__ == '__main__':
         print('destroying script', sys.argv[0])
         current_file = os.path.realpath(__file__)
         dirname = os.path.dirname(current_file)
-        if d.yesno("This will delete the directory {} irrevocably!").format(dirname) == d.OK:
+        if d.yesno("This will delete the directory {} irrevocably!".format(dirname)) == d.OK:
             print('deleting', dirname)
             shutil.rmtree(dirname)
     else:
