@@ -16,9 +16,9 @@ git clone https://github.com/Stefan-Code/ubuntu-provisioning.git && chown -R `lo
 provisioning_autorun="[ -f ~/ubuntu-provisioning/provisioning.py ] && ~/ubuntu-provisioning/provisioning.py"
 if grep -qx "$provisioning_autorun" ~/.profile
 then
+    echo ".profile already patched"
+else
     echo "patching .profile"
     echo "$provisioning_autorun" >> ~/.profile
-else
-    echo ".profile already patched"
 fi
 ./ubuntu-provisioning/provisioning.py
